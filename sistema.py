@@ -1,4 +1,5 @@
 import time
+import numpy as np
 
 # Má prática: Uso excessivo de variáveis globais e falta de encapsulamento
 livros_disponiveis = []
@@ -65,7 +66,7 @@ def gerar_relatorio_lento():
 
 def main():
     while True:
-        print("\n--- Sistema de Biblioteca ---")
+        print(f"\n--- Sistema de Biblioteca ---") # f string desnecessária
         print("1. Adicionar livro")
         print("2. Emprestar livro")
         print("3. Devolver livro")
@@ -101,5 +102,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
-Código Python básico com falhas intencionais e más práticas - Manus
