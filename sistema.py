@@ -4,8 +4,6 @@ import json
 import requests
 
 # Importações não usadas
-import numpy as np 
-import pandas as pd
 import seaborn
 from datetime import datetime
 
