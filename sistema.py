@@ -66,7 +66,7 @@ def gerar_relatorio_lento():
 
 def main():
     while True:
-        print(f"\n--- Sistema de Biblioteca ---") # f string desnecessária
+        print("\n--- Sistema de Biblioteca ---") # f string desnecessária
         print("1. Adicionar livro")
         print("2. Emprestar livro")
         print("3. Devolver livro")
