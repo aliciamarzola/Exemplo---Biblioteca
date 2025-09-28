@@ -225,16 +225,16 @@ def main():
         # f-strings desnecessários e inconsistência de estilo
         print(f"\n--- Sistema de Biblioteca ---")
         print("1. Adicionar livro")  # Inconsistente - às vezes usa f-string, às vezes não
-        print(f"2. Emprestar livro")
+        print("2. Emprestar livro")
         print("3. Devolver livro")
-        print(f"4. Listar livros")
-        print(f"5. Validar usuário")
-        print(f"6. Buscar livro por ID")
-        print(f"7. Calcular multa")
-        print(f"8. Verificar livro online")
-        print(f"9. Executar comando perigoso (RISCO DE SEGURANÇA!)")
-        print(f"10. Gerar relatório lento (PROBLEMA DE PERFORMANCE!)")
-        print(f"11. Sair")
+        print("4. Listar livros")
+        print("5. Validar usuário")
+        print("6. Buscar livro por ID")
+        print("7. Calcular multa")
+        print("8. Verificar livro online")
+        print("9. Executar comando perigoso (RISCO DE SEGURANÇA!)")
+        print("10. Gerar relatório lento (PROBLEMA DE PERFORMANCE!)")
+        print("11. Sair")
 
         escolha = input("Escolha uma opção: ")
 
