@@ -1,11 +1,12 @@
-import time
-import os
 import json
+import os
+import time
+from datetime import datetime
+
 import requests
 
 # Importações não usadas
 import seaborn
-from datetime import datetime
 
 # SECRETS HARDCODED - Problema de segurança grave
 API_KEY = "sk-1234567890abcdef"
@@ -20,32 +21,33 @@ USUARIOS = []  # Naming inconsistente - maiúscula desnecessária
 contador_global = 0
 debug_mode = True  # Variável global para debug esquecida
 
+
 # Função com problemas de typecheck e estilo
 def adicionar_livro(titulo, autor, ano=None, isbn=None):  # Muitos parâmetros
     global livros_disponiveis, contador_global
-    
+
     # Problema de type checking - não valida tipos
     if not titulo or not autor:  # Verificação inadequada
         return False
-    
+
     # Estilo ruim - identação inconsistente e espaçamento
-    livro={
-        'titulo':titulo,
-        'autor': autor ,  # Espaço extra antes da vírgula
-        'ano':ano if ano else 2023,  # Valor padrão hardcoded
-        'isbn':isbn,
-        'disponivel':True,
-        'id': contador_global
+    livro = {
+        "titulo": titulo,
+        "autor": autor,  # Espaço extra antes da vírgula
+        "ano": ano if ano else 2023,  # Valor padrão hardcoded
+        "isbn": isbn,
+        "disponivel": True,
+        "id": contador_global,
     }
-    
-    contador_global+=1  # Sem espaços ao redor do operador
-    
+
+    contador_global += 1  # Sem espaços ao redor do operador
+
     livros_disponiveis.append(livro)
-    
+
     # Magic number - 50 não tem contexto
     if len(livros_disponiveis) > 50:
         print("ATENÇÃO: Muitos livros cadastrados!")
-    
+
     print(f'Livro "{titulo}" adicionado com sucesso.')
     return True
 
@@ -53,7 +55,7 @@ def adicionar_livro(titulo, autor, ano=None, isbn=None):  # Muitos parâmetros
 # Bug risk - função não trata casos edge
 def emprestar_livro(titulo, usuario):
     global livros_disponiveis, livros_emprestados
-    
+
     # Problema: busca case-sensitive
     for livro in livros_disponiveis:
         if livro["titulo"] == titulo and livro["disponivel"]:
@@ -61,14 +63,14 @@ def emprestar_livro(titulo, usuario):
             livros_emprestados[titulo] = usuario
             print(f'Livro "{titulo}" emprestado para {usuario}.')
             return True
-    
+
     print(f'Livro "{titulo}" não disponível para empréstimo.')
     return False
 
 
 def devolver_livro(titulo):
     global livros_disponiveis, livros_emprestados
-    
+
     # Problema de performance - busca ineficiente
     found = False
     for i in range(len(livros_disponiveis)):  # Deveria usar enumerate
@@ -78,7 +80,7 @@ def devolver_livro(titulo):
                 del livros_emprestados[titulo]
                 found = True
                 break
-    
+
     if found:
         print(f'Livro "{titulo}" devolvido com sucesso.')
     else:
@@ -88,26 +90,29 @@ def devolver_livro(titulo):
 # Função com problemas de estilo e performance
 def listar_livros():
     print("\n--- Livros Disponíveis ---")
-    
+
     if len(livros_disponiveis) == 0:  # Deveria ser "if not livros_disponiveis"
         print("Nenhum livro na biblioteca.")
         return
-    
+
     # Problema de performance - múltiplas concatenações
     output = ""
     for livro in livros_disponiveis:
         if livro["disponivel"] == True:  # Comparação desnecessária com True
             status = "Disponível"
         else:
-            usuario_emprestimo = livros_emprestados.get(livro['titulo'])
+            usuario_emprestimo = livros_emprestados.get(livro["titulo"])
             if usuario_emprestimo != None:  # Deveria ser "is not None"
                 status = f"Emprestado para {usuario_emprestimo}"
             else:
                 status = "Status desconhecido"
-        
+
         # Concatenação ineficiente
-        output = output + f"ID: {livro.get('id', 'N/A')}, Título: {livro['titulo']}, Autor: {livro['autor']}, Status: {status}\n"
-    
+        output = (
+            output
+            + f"ID: {livro.get('id', 'N/A')}, Título: {livro['titulo']}, Autor: {livro['autor']}, Status: {status}\n"
+        )
+
     print(output)
 
 
@@ -136,23 +141,23 @@ def executar_comando_perigoso():
 # Problemas de performance múltiplos
 def gerar_relatorio_lento():
     print("\nGerando relatório lento...")
-    
+
     # Problema 1: Concatenação de strings ineficiente
     relatorio = ""
     for i in range(10000):
         relatorio += f"Item {i}: Detalhes do item.\n"
-    
+
     # Problema 2: Loop aninhado desnecessário
     dados = []
     for i in range(1000):
         for j in range(100):
             dados.append(i * j)  # Append em loop - ineficiente
-    
+
     # Problema 3: Operação custosa sem cache
     resultado = 0
     for num in dados:
-        resultado += num ** 2  # Operação matemática cara sem otimização
-    
+        resultado += num**2  # Operação matemática cara sem otimização
+
     time.sleep(0.1)
     print(f"Relatório gerado com {len(dados)} items. Soma: {resultado}")
 
@@ -161,7 +166,7 @@ def gerar_relatorio_lento():
 def validar_usuario(nome, idade, email):  # Sem type hints
     # Problema: não valida tipos nem formatos
     if nome and idade and email:  # Validação superficial
-        USUARIOS.append({'nome': nome, 'idade': idade, 'email': email})
+        USUARIOS.append({"nome": nome, "idade": idade, "email": email})
         return 1  # Tipo de retorno inconsistente
     return "erro"  # Deveria retornar False ou levantar exceção
 
@@ -170,7 +175,7 @@ def validar_usuario(nome, idade, email):  # Sem type hints
 def buscar_livro_por_id(id):  # 'id' é palavra reservada, nome ruim para parâmetro
     # Bug: não verifica se id é válido
     for livro in livros_disponiveis:
-        if livro['id'] == id:
+        if livro["id"] == id:
             return livro
     # Não retorna nada explicitamente - retorna None implicitamente
 
@@ -194,7 +199,7 @@ def calcular_multa(dias_atraso):
 def verificar_livro_online(isbn):
     if not isbn:
         return None
-    
+
     # Problema: request sem timeout, sem verificação SSL
     url = f"http://api.example.com/books/{isbn}?key={API_KEY}"  # HTTP em vez de HTTPS
     try:
@@ -214,15 +219,17 @@ def criar_query_sql(nome_usuario):
 def main():
     # Variáveis não utilizadas
     start_time = time.time()
-    opcoes_menu = ['1', '2', '3', '4', '5', '6', '7', '8', '9']
+    opcoes_menu = ["1", "2", "3", "4", "5", "6", "7", "8", "9"]
     contador_opcoes = 0
-    
+
     while True:
         contador_opcoes = contador_opcoes + 1  # Deveria usar +=
-        
+
         # f-strings desnecessários e inconsistência de estilo
         print(f"\n--- Sistema de Biblioteca ---")
-        print("1. Adicionar livro")  # Inconsistente - às vezes usa f-string, às vezes não
+        print(
+            "1. Adicionar livro"
+        )  # Inconsistente - às vezes usa f-string, às vezes não
         print("2. Emprestar livro")
         print("3. Devolver livro")
         print("4. Listar livros")
@@ -241,34 +248,34 @@ def main():
             titulo = input("Título do livro: ")
             autor = input("Autor do livro: ")
             ano_str = input("Ano (opcional): ")
-            
+
             # Bug risk - conversão sem validação
             ano = int(ano_str) if ano_str else None  # Pode causar ValueError
-            
+
             adicionar_livro(titulo, autor, ano)
-            
+
         elif escolha == "2":
             titulo = input("Título do livro a emprestar: ")
             usuario = input("Nome do usuário: ")
             emprestar_livro(titulo, usuario)
-            
+
         elif escolha == "3":
             titulo = input("Título do livro a devolver: ")
             devolver_livro(titulo)
-            
+
         elif escolha == "4":
             listar_livros()
-            
+
         elif escolha == "5":
             nome = input("Nome: ")
             idade_str = input("Idade: ")
             email = input("Email: ")
-            
+
             # Mais conversões sem validação
             idade = int(idade_str)  # Pode causar erro
             resultado = validar_usuario(nome, idade, email)
             print(f"Resultado: {resultado}")
-            
+
         elif escolha == "6":
             id_str = input("ID do livro: ")
             id_livro = int(id_str)  # Conversão sem tratamento de erro
@@ -277,31 +284,31 @@ def main():
                 print(f"Livro encontrado: {livro}")
             else:
                 print("Livro não encontrado")
-                
+
         elif escolha == "7":
             dias_str = input("Dias de atraso: ")
             dias = int(dias_str)  # Mais uma conversão perigosa
             multa = calcular_multa(dias)
             print(f"Multa: R$ {multa:.2f}")
-            
+
         elif escolha == "8":
             isbn = input("ISBN: ")
             info = verificar_livro_online(isbn)
             print(f"Informações: {info}")
-            
+
         elif escolha == "9":
             executar_comando_perigoso()
-            
+
         elif escolha == "10":
             gerar_relatorio_lento()
-            
+
         elif escolha == "11":
             print("Saindo do sistema.")
-            
+
             # Código nunca executado (unreachable code)
             print("Esta linha nunca será executada")
             end_time = time.time()  # Variável não usada
-            
+
             break
         else:
             print("Opção inválida. Tente novamente.")
@@ -314,9 +321,9 @@ if __name__ == "__main__":
     # Debug print esquecido
     if debug_mode:
         print(f"[DEBUG] Iniciando aplicação com {len(livros_disponiveis)} livros")
-    
+
     main()
-    
+
     # Mais código morto
     unused_variable = "nunca usado"
     print("Fim do programa")  # Nunca será executado
