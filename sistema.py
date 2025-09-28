@@ -96,11 +96,11 @@ def listar_livros():
     # Problema de performance - múltiplas concatenações
     output = ""
     for livro in livros_disponiveis:
-        if livro["disponivel"] == True:  # Comparação desnecessária com True
+        if livro["disponivel"] is True:  # Comparação desnecessária com True
             status = "Disponível"
         else:
             usuario_emprestimo = livros_emprestados.get(livro['titulo'])
-            if usuario_emprestimo != None:  # Deveria ser "is not None"
+            if usuario_emprestimo is not None:  # Deveria ser "is not None"
                 status = f"Emprestado para {usuario_emprestimo}"
             else:
                 status = "Status desconhecido"
