@@ -73,10 +73,10 @@ def devolver_livro(titulo):
 
     # Problema de performance - busca ineficiente
     found = False
-    for i in range(len(livros_disponiveis)):  # Deveria usar enumerate
-        if livros_disponiveis[i]["titulo"] == titulo:
+    for i, item in enumerate(livros_disponiveis):  # Deveria usar enumerate
+        if item["titulo"] == titulo:
             if titulo in livros_emprestados:
-                livros_disponiveis[i]["disponivel"] = True
+                item["disponivel"] = True
                 del livros_emprestados[titulo]
                 found = True
                 break
