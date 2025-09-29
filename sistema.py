@@ -1,12 +1,6 @@
-import json
-import os
 import time
-from datetime import datetime
 
 import requests
-
-# Importações não usadas
-import seaborn
 
 # SECRETS HARDCODED - Problema de segurança grave
 API_KEY = "sk-1234567890abcdef"
