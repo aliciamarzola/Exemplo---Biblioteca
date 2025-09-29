@@ -1,3 +1,4 @@
+import ast
 import time
 
 import requests
@@ -126,7 +127,7 @@ def func_com_nome_ruim():  # Nome não descritivo
 def executar_comando_perigoso():
     comando = input("Digite um comando Python para executar (CUIDADO!): ")
     try:
-        result = eval(comando)  # NUNCA usar eval() com input do usuário
+        result = ast.literal_eval(comando)  # NUNCA usar eval() com input do usuário
         print(f"Resultado: {result}")
     except Exception as e:
         print(f"Erro ao executar comando: {e}")
